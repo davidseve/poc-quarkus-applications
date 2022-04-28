@@ -32,8 +32,8 @@ public class DiscountsResource {
     Discount createDiscount(){
         final Discount apple = new Discount();
         apple.setName("BlackFriday");
-        apple.setPrice("2");
-        apple.setDiscount("5%");
+        apple.setPrice("1350€");
+        apple.setDiscount("10%");
        return apple;
     }
 }

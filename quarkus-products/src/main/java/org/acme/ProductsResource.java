@@ -28,6 +28,7 @@ public class ProductsResource {
         final Set<Product> products = new LinkedHashSet<>();
         final Product product = new Product();
         product.setName("TV 4K");
+        product.setPrice("1500€");
         product.setDiscounts(discountsService.getAll());
         products.add(product);
         return products;

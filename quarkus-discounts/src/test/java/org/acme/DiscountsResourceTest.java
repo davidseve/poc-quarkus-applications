@@ -19,9 +19,9 @@ public class DiscountsResourceTest {
                 .statusCode(200)
                 .body("$.size()", is(0));
 //                .body("$.size()", is(1),
-//                        "name", containsInAnyOrder("Apple"),
-//                        "price", containsInAnyOrder("2"),
-//                        "discount", containsInAnyOrder("5%"));
+//                        "name", containsInAnyOrder("BlackFriday"),
+//                        "price", containsInAnyOrder("1350€"),
+//                        "discount", containsInAnyOrder("10%"));
     }
 
 }
