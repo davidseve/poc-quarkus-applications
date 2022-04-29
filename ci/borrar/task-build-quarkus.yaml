@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: quarkus-build
+spec:
+  workspaces:
+  - name: source
+  params:
+  - name: FROM_DIRECTORY
+    description: The sub-directory to use for the wildcard build
+    type: string
+    default: ""
+  - name: FROM_FILE
+    description: The file to use for the s2i binary build, can be a wildcard. If it resolves to multiple files the first one is used
+    type: string
+    default: ""
+  - name: NAMESPACE
+    type: string
+    description: The namespace holding the build configuration to be used.
+    default: ""
+  - name: BUILDCONFIG
+    type: string
+    description: Name of the build config to be used.
+  steps:
+  - name: build-quarkus
+    image: maven
+    script: |
+      #!/usr/bin/env bash
+      ./mvnw package -Pnative
+      docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/discounts .
+        

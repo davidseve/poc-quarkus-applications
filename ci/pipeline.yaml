@@ -1,0 +1,93 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-quarkus-application
+spec:
+  params:
+  - name: APP_NAME
+    type: string
+    description: The application deployment name
+  - name: SOURCE_GIT_URL
+    type: string
+    description: The application git repository url
+    default: https://github.com/davidseve/poc-quarkus-applications
+  - name: SOURCE_GIT_REVISION
+    type: string
+    default: main
+    description: The application git repository revision
+  - name: SOURCE_GIT_CONTEXT_DIR
+    type: string
+    default: ""
+    description: The subdirectory in the git repository
+  - name: IMAGE
+    type: string
+    default: quay.io/dseveria/
+    description: Image registry
+  - name: TAG
+    type: string
+    default: latest
+    description: Image tag
+  - name: DOCKERFILE
+    type: string
+    default: src/main/docker/Dockerfile.jvm
+    description: Docker file path
+  
+
+  workspaces:
+  - name: app-source
+  - name: maven-settings
+  - name: dockerconfig
+
+  tasks:
+  - name: git-clone
+    taskRef:
+      kind: ClusterTask
+      name: git-clone
+    params:
+    - name: url
+      value: $(params.SOURCE_GIT_URL)
+    - name: revision
+      value: $(params.SOURCE_GIT_REVISION)
+    - name: deleteExisting
+      value: 'true'
+    workspaces:
+    - name: output
+      workspace: app-source
+
+  - name: maven-build
+    runAfter:
+    - git-clone
+    taskRef:
+      kind: ClusterTask
+      name: maven
+    params:
+    - name: CONTEXT_DIR
+      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+    - name: GOALS
+      value:
+      - clean
+      - compile
+      - package
+    workspaces:
+    - name: source
+      workspace: app-source
+    - name: maven-settings
+      workspace: maven-settings
+
+  - name: image-build-push
+    runAfter:
+    - maven-build
+    taskRef:
+      name: kaniko
+    params:
+    - name: IMAGE
+      value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
+    - name: DOCKERFILE
+      value: ./$(params.DOCKERFILE)
+    - name: CONTEXT
+      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+    workspaces:
+    - name: source
+      workspace: app-source
+    - name: dockerconfig
+      workspace: dockerconfig

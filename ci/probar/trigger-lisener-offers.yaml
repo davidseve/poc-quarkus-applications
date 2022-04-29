@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-interceptor-secret
+type: Opaque
+stringData:
+  secretToken: "1234567"
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: discounts-listener
+spec:
+  triggers:
+  - name: discounts
+    interceptors:
+      - ref:
+          name: "github"
+        params:
+          - name: "secretRef"
+            value:
+              secretName: github-interceptor-secret
+              secretKey: secretToken
+    bindings:
+    - ref: discounts-binding
+    template:
+      ref: discounts-template
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: discounts-listener-router
+spec:
+  port:
+    targetPort: 8080
+  path: "/hooks"
+  to:
+    kind: Service
+    name: el-discounts-listener

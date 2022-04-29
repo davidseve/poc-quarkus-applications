@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: quarkus-build-
+spec:
+  taskRef:
+    kind: Task
+    name: quarkus-build
+  params:
+  - name: FROM_FILE
+    value: source/coffee-shop/target/coffee-shop-1.0-SNAPSHOT-runner.jar
+  - name: NAMESPACE
+    value: ${OCP_USER}-dev-coffeeshop
+  - name: BUILDCONFIG
+    value: coffee-shop
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: workspace-pvc

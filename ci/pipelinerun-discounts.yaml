@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipeline-discounts-
+spec:
+  pipelineRef:
+    name: build-quarkus-application
+  params:
+  - name: APP_NAME
+    value: discounts
+  - name: SOURCE_GIT_CONTEXT_DIR
+    value: quarkus-discounts
+  - name: TAG
+    value: v1
+  - name: SOURCE_GIT_REVISION
+    value: v1
+  workspaces:
+  - name: dockerconfig
+    secret:
+      secretName: docker-config
+  - name: app-source
+    persistentVolumeClaim:
+      claimName: workspace-pvc-discounts
+  - name: maven-settings
+    emptyDir: {}

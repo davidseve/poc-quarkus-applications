@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipeline-products-
+spec:
+  pipelineRef:
+    name: build-quarkus-application
+  params:
+  - name: APP_NAME
+    value: products
+  - name: SOURCE_GIT_CONTEXT_DIR
+    value: quarkus-products
+  - name: TAG
+    value: v1
+  - name: SOURCE_GIT_REVISION
+    value: v1
+  workspaces:
+  - name: dockerconfig
+    secret:
+      secretName: docker-config
+  - name: app-source
+    persistentVolumeClaim:
+      claimName: workspace-pvc-products
+  - name: maven-settings
+    emptyDir: {}
