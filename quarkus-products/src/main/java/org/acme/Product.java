@@ -1,18 +1,16 @@
 package org.acme;
 
-import java.util.Set;
-
 public class Product {
     
-    private Set<Discount> discounts;
+    private DiscountsResponse discounts;
     private String name;
     private String price;
 
     
-    public Set<Discount> getDiscounts() {
+    public DiscountsResponse getDiscounts() {
         return discounts;
     }
-    public void setDiscounts(Set<Discount> discounts) {
+    public void setDiscounts(DiscountsResponse discounts) {
         this.discounts = discounts;
     }
     public String getName() {

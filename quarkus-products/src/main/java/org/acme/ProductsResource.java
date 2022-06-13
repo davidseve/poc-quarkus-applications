@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
@@ -14,6 +15,15 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Path("/products")
 public class ProductsResource {
+	
+	@ConfigProperty(name = "application.version", defaultValue="none") 
+	String version;
+	
+	@ConfigProperty(name = "application.colour", defaultValue="none") 
+	String colour;
+	
+	@ConfigProperty(name = "application.mode", defaultValue="none") 
+	String mode;
 
     @Inject
     @RestClient
@@ -24,13 +34,17 @@ public class ProductsResource {
     @SimplyTimed(name = "get_products:process_time",
            description = "A measure of how long it takes to process products",
            unit = MetricUnits.MILLISECONDS)
-    public Set<Product> products() {
+    public ProductsResponse products() {
+    	final Product product = new Product();
         final Set<Product> products = new LinkedHashSet<>();
-        final Product product = new Product();
+     
         product.setName("TV 4K");
         product.setPrice("1500€");
         product.setDiscounts(discountsService.getAll());
         products.add(product);
-        return products;
+        
+        final ProductsResponse productsResponse = new ProductsResponse(products, version, colour, mode);
+        productsResponse.setProducts(products);
+        return productsResponse;
     }
 }
