@@ -20,7 +20,7 @@ public class DiscountsResource {
     private Set<Discount> discounts = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
     public DiscountsResource(){
-        //discounts.add(createDiscount());
+        discounts.add(createDiscount());
     }
 
     @GET

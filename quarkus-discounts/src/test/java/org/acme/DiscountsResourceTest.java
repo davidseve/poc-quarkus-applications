@@ -17,11 +17,10 @@ public class DiscountsResourceTest {
                 .when().get("/discounts")
                 .then()
                 .statusCode(200)
-                .body("$.size()", is(0));
-//                .body("$.size()", is(1),
-//                        "name", containsInAnyOrder("BlackFriday"),
-//                        "price", containsInAnyOrder("1350€"),
-//                        "discount", containsInAnyOrder("10%"));
+                .body("$.size()", is(1),
+                        "name", containsInAnyOrder("BlackFriday"),
+                        "price", containsInAnyOrder("1350€"),
+                        "discount", containsInAnyOrder("10%"));
     }
 
 }
