@@ -1,5 +1,7 @@
 package org.acme;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotEmpty;
 
 public class Discount {
@@ -12,6 +14,8 @@ public class Discount {
 
     @NotEmpty
     private String discount;
+    
+    private String description;
 
     public String getName() {
         return name;
@@ -37,47 +41,37 @@ public class Discount {
         this.discount = discount;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((discount == null) ? 0 : discount.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        return result;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Discount other = (Discount) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (discount == null) {
-            if (other.discount != null)
-                return false;
-        } else if (!discount.equals(other.discount))
-            return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
-            return false;
-        return true;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    @Override
-    public String toString() {
-        return "Discount [name=" + name + ", discount=" + discount + ", price=" + price + "]";
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, discount, name, price);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Discount other = (Discount) obj;
+		return Objects.equals(description, other.description) && Objects.equals(discount, other.discount)
+				&& Objects.equals(name, other.name) && Objects.equals(price, other.price);
+	}
+
+	@Override
+	public String toString() {
+		return "Discount [name=" + name + ", price=" + price + ", discount=" + discount + ", description=" + description
+				+ "]";
+	}
 
     
 }
