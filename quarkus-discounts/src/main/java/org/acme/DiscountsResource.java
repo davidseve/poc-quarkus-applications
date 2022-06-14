@@ -45,6 +45,7 @@ public class DiscountsResource {
         apple.setName("BlackFriday");
         apple.setPrice("1350€");
         apple.setDiscount("10%");
+        apple.setDescription("The best discount");
        return apple;
     }
 }
