@@ -40,7 +40,7 @@ public class ProductsResource {
      
         product.setName("TV 4K");
         product.setPrice("1500€");
-        product.setDiscounts(discountsService.getAll());
+        product.setDiscountInfo(discountsService.getAll());
         products.add(product);
         
         final ProductsResponse productsResponse = new ProductsResponse(products, version, colour, mode);

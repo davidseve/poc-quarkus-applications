@@ -2,18 +2,19 @@ package org.acme;
 
 public class Product {
     
-    private DiscountsResponse discounts;
+    private DiscountsResponse discountInfo;
     private String name;
     private String price;
 
     
-    public DiscountsResponse getDiscounts() {
-        return discounts;
-    }
-    public void setDiscounts(DiscountsResponse discounts) {
-        this.discounts = discounts;
-    }
-    public String getName() {
+
+    public DiscountsResponse getDiscountInfo() {
+		return discountInfo;
+	}
+	public void setDiscountInfo(DiscountsResponse discountInfo) {
+		this.discountInfo = discountInfo;
+	}
+	public String getName() {
         return name;
     }
     public void setName(String name) {
@@ -33,7 +34,7 @@ public class Product {
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((discounts == null) ? 0 : discounts.hashCode());
+        result = prime * result + ((discountInfo == null) ? 0 : discountInfo.hashCode());
         return result;
     }
     @Override
@@ -55,16 +56,16 @@ public class Product {
                 return false;
         } else if (!price.equals(other.price))
             return false;
-        if (discounts == null) {
-            if (other.discounts != null)
+        if (discountInfo == null) {
+            if (other.discountInfo != null)
                 return false;
-        } else if (!discounts.equals(other.discounts))
+        } else if (!discountInfo.equals(other.discountInfo))
             return false;
         return true;
     }
     @Override
     public String toString() {
-        return "Products [name=" + name + ", discounts=" + discounts + "]";
+        return "Products [name=" + name + ", discounts=" + discountInfo + "]";
     }
 
     
