@@ -11,9 +11,9 @@ spec:
   - name: SOURCE_GIT_CONTEXT_DIR
     value: quarkus-discounts
   - name: TAG
-    value: v1
+    value: v1.0.1
   - name: SOURCE_GIT_REVISION
-    value: v1
+    value: v.1.0.1
   workspaces:
   - name: dockerconfig
     secret:
