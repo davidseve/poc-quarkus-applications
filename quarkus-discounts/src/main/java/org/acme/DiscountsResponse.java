@@ -5,29 +5,29 @@ import java.util.Set;
 public class DiscountsResponse{
 	
 	private Set<Discount> discounts; 
-	private Metadata metada;
+	private Metadata metadata;
 	
 	public DiscountsResponse() {
 		super();
 	}
 	
-	public DiscountsResponse(Set<Discount> discounts, Metadata metada) {
+	public DiscountsResponse(Set<Discount> discounts, Metadata metadata) {
 		super();
 		this.discounts = discounts;
-		this.metada = metada;
+		this.metadata = metadata;
 	}
 	public DiscountsResponse(Set<Discount> discounts, String version, String colour, String mode) {
 		super();
 		this.discounts = discounts;
-		metada = new Metadata(version, colour, mode);
+		metadata = new Metadata(version, colour, mode);
 	}
 
-	public Metadata getMetada() {
-		return metada;
+	public Metadata getMetadata() {
+		return metadata;
 	}
 
-	public void setMetada(Metadata metada) {
-		this.metada = metada;
+	public void setMetadata(Metadata metadata) {
+		this.metadata = metadata;
 	}
 
 	public Set<Discount> getDiscounts() {
