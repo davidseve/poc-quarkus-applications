@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Discounts</title>
+</head>
+<body>
+    <h1>Discounts</h1>
+    {#for discount in discounts} 
+      <h2>Name: {discount.name ?: 'Unknown'}</h2> 
+      <p>
+      Price: {discount.price ?: 'Unknown'}<br>
+      Discount: {discount.discount ?: 'Unknown'}<br>
+      Description: {discount.description ?: 'Unknown'}<br>
+      </p>
+    {/for}
+    <h1>Metadata</h1>
+      <p>
+      Version: {metadata.version ?: 'Unknown'}<br>
+      Color: {metadata.colour ?: 'Unknown'}<br>
+      Mode: {metadata.mode ?: 'Unknown'}<br>
+      </p>
+</body>
+</html>

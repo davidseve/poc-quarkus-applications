@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +13,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.annotation.Counted;
+
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
 
 @Path("/discounts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -38,6 +42,18 @@ public class DiscountsResource {
     public DiscountsResponse discounts() {
     	final DiscountsResponse discountResponse = new DiscountsResponse(discounts, version, colour, mode);
         return discountResponse;
+    }
+
+    @Inject
+    Template discountsTemplate; 
+
+    @GET
+    @Path("/html")
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance getHtml() {
+        final DiscountsResponse discountResponse = new DiscountsResponse(discounts, version, colour, mode);
+        return discountsTemplate.data("discounts", discountResponse.getDiscounts(),
+        		                      "metadata", discountResponse.getMetadata()); 
     }
 
     Discount createDiscount(){
