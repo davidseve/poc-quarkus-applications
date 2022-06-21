@@ -13,7 +13,7 @@ spec:
   - name: TAG
     value: latest
   - name: SOURCE_GIT_REVISION
-    value: v1.1.0
+    value: main
   workspaces:
   - name: dockerconfig
     secret:
