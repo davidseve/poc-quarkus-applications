@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.metrics.annotation.Counted;
+// import org.eclipse.microprofile.metrics.annotation.Counted;
 
 @Path("/discounts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,7 +34,7 @@ public class DiscountsResource {
     }
 
     @GET
-    @Counted(name = "discounts", description = "count of get discounts")
+    // @Counted(name = "discounts", description = "count of get discounts")
     public DiscountsResponse discounts() {
     	final DiscountsResponse discountResponse = new DiscountsResponse(discounts, version, colour, mode);
         return discountResponse;
