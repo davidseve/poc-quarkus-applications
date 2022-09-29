@@ -8,10 +8,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.metrics.MetricUnits;
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+//import org.eclipse.microprofile.metrics.MetricUnits;
+//import org.eclipse.microprofile.metrics.annotation.Counted;
+//import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
+//import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Path("/products")
 public class ProductsResource {
@@ -30,10 +30,10 @@ public class ProductsResource {
     DiscountsService discountsService;
 
     @GET
-    @Counted(name = "get_products:counted", description = "count of get products")
-    @SimplyTimed(name = "get_products:process_time",
-           description = "A measure of how long it takes to process products",
-           unit = MetricUnits.MILLISECONDS)
+    //@Counted(name = "get_products:counted", description = "count of get products")
+    //@SimplyTimed(name = "get_products:process_time",
+    //       description = "A measure of how long it takes to process products",
+    //       unit = MetricUnits.MILLISECONDS)
     public ProductsResponse products() {
     	final Product product = new Product();
         final Set<Product> products = new LinkedHashSet<>();
