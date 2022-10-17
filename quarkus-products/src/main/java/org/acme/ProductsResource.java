@@ -11,7 +11,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 //import org.eclipse.microprofile.metrics.MetricUnits;
 //import org.eclipse.microprofile.metrics.annotation.Counted;
 //import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
-//import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Path("/products")
 public class ProductsResource {
