@@ -69,7 +69,7 @@ spec:
       resolver: cluster      
     workspaces:
       - name: source
-        workspace: source-folder
+        workspace: workspace-source
       - name: maven-settings
         workspace: maven-settings
 
