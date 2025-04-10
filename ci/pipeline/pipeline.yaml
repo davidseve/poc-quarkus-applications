@@ -83,7 +83,7 @@ spec:
       - name: CONTEXT
         value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
       - name: DOCKERFILE
-        value: ./$(SOURCE_GIT_CONTEXT_DIR)/$(params.DOCKERFILE)
+        value: ./$(params.DOCKERFILE)
     runAfter:
       - package
     taskRef:
