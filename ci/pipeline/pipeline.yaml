@@ -68,7 +68,7 @@ spec:
       - name: DOCKERFILE
         value: ./$(params.DOCKERFILE)
     runAfter:
-      - git-clone
+      - fetch-repository
     taskRef:
       resolver: cluster
       params:
