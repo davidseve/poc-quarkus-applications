@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: build-quarkus-application
-  namespace: openshift-gitops
 spec:
   params:
   - name: APP_NAME
