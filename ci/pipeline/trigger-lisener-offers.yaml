@@ -11,7 +11,6 @@ kind: EventListener
 metadata:
   name: discounts-listener
 spec:
-  serviceAccountName: pipeline
   triggers:
   - name: discounts
     triggerRef: discounts-trigger
@@ -31,7 +30,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
-  serviceAccountName: pipeline 
   bindings:
   - ref: discounts-binding
   template:
