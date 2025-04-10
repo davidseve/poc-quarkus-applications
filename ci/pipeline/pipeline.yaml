@@ -73,6 +73,8 @@ spec:
       params:
         - name: name
           value: buildah
+        - name: namespace
+          value: openshift-pipelines          
     workspaces:
       - name: source
         workspace: workspace-source
