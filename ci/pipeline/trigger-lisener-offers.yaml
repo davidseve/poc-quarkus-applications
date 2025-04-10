@@ -11,6 +11,7 @@ kind: EventListener
 metadata:
   name: discounts-listener
 spec:
+  serviceAccountName: pipeline
   triggers:
   - name: discounts
     triggerRef: discounts-trigger
