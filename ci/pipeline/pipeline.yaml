@@ -80,10 +80,10 @@ spec:
     params:
       - name: IMAGE
         value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
-      - name: CONTEXT_DIR
+      - name: CONTEXT
         value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
       - name: DOCKERFILE
-        value: ./$(params.DOCKERFILE)
+        value: ./$(SOURCE_GIT_CONTEXT_DIR)/$(params.DOCKERFILE)
     runAfter:
       - package
     taskRef:
