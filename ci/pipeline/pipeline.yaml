@@ -32,63 +32,48 @@ spec:
     type: string
     default: src/main/docker/Dockerfile.jvm
     description: Docker file path
-  
+
 
   workspaces:
-  - name: app-source
-  - name: maven-settings
-  - name: dockerconfig
-
+  - name: workspace-source
+  
   tasks:
-  - name: git-clone
-    taskRef:
-      kind: ClusterTask
-      name: git-clone
+  - name: fetch-repository
     params:
-    - name: url
-      value: $(params.SOURCE_GIT_URL)
-    - name: revision
-      value: $(params.SOURCE_GIT_REVISION)
-    - name: deleteExisting
-      value: 'true'
+      - name: URL
+        value: $(params.SOURCE_GIT_URL)
+      - name: REVISION
+        value: $(params.SOURCE_GIT_REVISION)
+      - name: DELETE_EXISTING
+        value: 'true'
+      # - name: SSL_VERIFY
+      #   value: $(params.GIT_SSL_VERIFY)
+    taskRef:
+      params:
+        - name: name
+          value: git-clone
+        - name: namespace
+          value: openshift-pipelines
+      resolver: cluster
     workspaces:
-    - name: output
-      workspace: app-source
+      - name: output
+        workspace: workspace-source
 
-  - name: maven-build
-    runAfter:
-    - git-clone
-    taskRef:
-      kind: ClusterTask
-      name: maven
+  - name: build-sign-image
     params:
-    - name: CONTEXT_DIR
-      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
-    - name: GOALS
-      value:
-      - clean
-      - compile
-      - package
-    workspaces:
-    - name: source
-      workspace: app-source
-    - name: maven-settings
-      workspace: maven-settings
-
-  - name: image-build-push
+      - name: IMAGE
+        value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
+      - name: CONTEXT_DIR
+        value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+      - name: DOCKERFILE
+        value: ./$(params.DOCKERFILE)
     runAfter:
-    - maven-build
+      - git-clone
     taskRef:
-      name: kaniko
-    params:
-    - name: IMAGE
-      value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
-    - name: DOCKERFILE
-      value: ./$(params.DOCKERFILE)
-    - name: CONTEXT
-      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+      resolver: cluster
+      params:
+        - name: name
+          value: buildah
     workspaces:
-    - name: source
-      workspace: app-source
-    - name: dockerconfig
-      workspace: dockerconfig
+      - name: source
+        workspace: workspace-source

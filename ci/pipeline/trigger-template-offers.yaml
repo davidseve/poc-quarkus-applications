@@ -20,11 +20,13 @@ spec:
       - name: APP_NAME
         value: discounts
       workspaces:
-      - name: dockerconfig
-        secret:
-          secretName: docker-config
-      - name: app-source
-        persistentVolumeClaim:
-          claimName: workspace-pvc
-      - name: maven-settings
-        emptyDir: {}
+      - name: workspace-source
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+            volumeMode: Filesystem
+
