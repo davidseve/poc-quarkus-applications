@@ -60,6 +60,9 @@ spec:
   - name: package
     runAfter:
       - git-clone
+    params:
+      - name: SUBDIRECTORY
+        value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
     taskRef:
       params:
         - name: name
