@@ -29,7 +29,7 @@ spec:
               requests:
                 storage: 1Gi
             volumeMode: Filesystem
-      - name: maven-settings
+      - name: maven_settings
         volumeClaimTemplate:
           spec:
             accessModes:

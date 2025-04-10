@@ -35,7 +35,7 @@ spec:
 
   workspaces:
   - name: workspace-source
-  - name: maven-settings  
+  - name: maven_settings  
 
   tasks:
   - name: git-clone
@@ -70,8 +70,8 @@ spec:
     workspaces:
       - name: source
         workspace: workspace-source
-      - name: maven-settings
-        workspace: maven-settings
+      - name: maven_settings
+        workspace: maven_settings
 
   - name: build-sign-image
     params:
