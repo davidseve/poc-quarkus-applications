@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: build-quarkus-application
-  namespace: gitops
+  namespace: openshift-gitops
 spec:
   params:
   - name: APP_NAME
@@ -36,7 +36,7 @@ spec:
 
   workspaces:
   - name: workspace-source
-  
+
   tasks:
   - name: fetch-repository
     params:
