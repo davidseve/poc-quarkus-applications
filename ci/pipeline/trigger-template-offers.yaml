@@ -6,6 +6,7 @@ spec:
   params:
   - name: git-repo-url
   - name: git-revision
+  - name: git-repo-name  
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
@@ -17,8 +18,11 @@ spec:
       params:
       - name: SOURCE_GIT_URL
         value: $(tt.params.git-repo-url)
+      - name: SOURCE_GIT_REVISION
+        value: $(tt.params.git-revision)        
       - name: APP_NAME
-        value: discounts
+        value: $(tt.params.git-repo-url)
+        
       workspaces:
       - name: workspace-source
         volumeClaimTemplate:

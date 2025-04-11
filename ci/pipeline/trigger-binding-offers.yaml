@@ -8,3 +8,5 @@ spec:
     value: $(body.repository.clone_url)
   - name: git-revision
     value: $(body.head_commit.id)
+  - name: git-repo-name
+    value: $(bodyrepository.name    
