@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: build-quarkus-application
-  namespace: gitops
 spec:
   params:
   - name: APP_NAME
@@ -32,63 +31,68 @@ spec:
     type: string
     default: src/main/docker/Dockerfile.jvm
     description: Docker file path
-  
+
 
   workspaces:
-  - name: app-source
-  - name: maven-settings
-  - name: dockerconfig
+  - name: workspace-source
+  - name: maven_settings  
 
   tasks:
   - name: git-clone
-    taskRef:
-      kind: ClusterTask
-      name: git-clone
     params:
-    - name: url
-      value: $(params.SOURCE_GIT_URL)
-    - name: revision
-      value: $(params.SOURCE_GIT_REVISION)
-    - name: deleteExisting
-      value: 'true'
+      - name: URL
+        value: $(params.SOURCE_GIT_URL)
+      - name: REVISION
+        value: $(params.SOURCE_GIT_REVISION)
+      - name: DELETE_EXISTING
+        value: 'true'
+    taskRef:
+      params:
+        - name: name
+          value: git-clone
+        - name: namespace
+          value: openshift-pipelines
+      resolver: cluster
     workspaces:
-    - name: output
-      workspace: app-source
-
-  - name: maven-build
+      - name: output
+        workspace: workspace-source
+  
+  - name: package
     runAfter:
-    - git-clone
-    taskRef:
-      kind: ClusterTask
-      name: maven
+      - git-clone
     params:
-    - name: CONTEXT_DIR
-      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
-    - name: GOALS
-      value:
-      - clean
-      - compile
+      - name: SUBDIRECTORY
+        value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+    taskRef:
+      params:
+        - name: name
+          value: maven
+        - name: namespace
+          value: openshift-pipelines
+      resolver: cluster      
+    workspaces:
+      - name: source
+        workspace: workspace-source
+      - name: maven_settings
+        workspace: maven_settings
+
+  - name: build-sign-image
+    params:
+      - name: IMAGE
+        value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
+      - name: CONTEXT
+        value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+      - name: DOCKERFILE
+        value: ./$(params.DOCKERFILE)
+    runAfter:
       - package
-    workspaces:
-    - name: source
-      workspace: app-source
-    - name: maven-settings
-      workspace: maven-settings
-
-  - name: image-build-push
-    runAfter:
-    - maven-build
     taskRef:
-      name: kaniko
-    params:
-    - name: IMAGE
-      value: $(params.IMAGE)$(params.APP_NAME):$(params.TAG)
-    - name: DOCKERFILE
-      value: ./$(params.DOCKERFILE)
-    - name: CONTEXT
-      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+      resolver: cluster
+      params:
+        - name: name
+          value: buildah
+        - name: namespace
+          value: openshift-pipelines          
     workspaces:
-    - name: source
-      workspace: app-source
-    - name: dockerconfig
-      workspace: dockerconfig
+      - name: source
+        workspace: workspace-source
