@@ -11,7 +11,7 @@ spec:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      generateName: pipeline-discounts-
+      generateName: pipeline-ci-$(tt.params.git-repo-name)
     spec:
       pipelineRef:
         name: build-quarkus-application
@@ -21,7 +21,7 @@ spec:
       - name: SOURCE_GIT_REVISION
         value: $(tt.params.git-revision)        
       - name: APP_NAME
-        value: $(tt.params.git-repo-url)
+        value: $(tt.params.git-repo-name)
         
       workspaces:
       - name: workspace-source

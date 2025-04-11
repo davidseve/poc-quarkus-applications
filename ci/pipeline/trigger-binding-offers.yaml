@@ -9,4 +9,4 @@ spec:
   - name: git-revision
     value: $(body.head_commit.id)
   - name: git-repo-name
-    value: $(bodyrepository.name    
+    value: $(body.repository.name)    
