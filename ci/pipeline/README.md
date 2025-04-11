@@ -35,3 +35,4 @@ metadata:
 secret:
   - name: quay-pull-secret
 ```
+
