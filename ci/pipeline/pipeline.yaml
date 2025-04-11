@@ -17,7 +17,7 @@ spec:
     description: The application git repository revision
   - name: SOURCE_GIT_CONTEXT_DIR
     type: string
-    default: "quarkus-discounts" #TODO set ""
+    default: ""
     description: The subdirectory in the git repository
   - name: IMAGE
     type: string

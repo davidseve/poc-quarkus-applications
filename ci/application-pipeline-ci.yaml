@@ -11,7 +11,7 @@ spec:
   source:
     path: ci/pipeline
     repoURL: https://github.com/davidseve/poc-quarkus-applications.git
-    targetRevision: improve #TODO HEAD
+    targetRevision: HEAD
     directory:
       recurse: true
   project: default
