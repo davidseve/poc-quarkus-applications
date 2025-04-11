@@ -1,17 +1,37 @@
-# Pipelines
-
-podman login -u dseveria quay.io/dseveria
-cp /run/user/1000/containers/auth.json /tmp/config.json
-kubectl create secret generic docker-config --from-file=/tmp/config.json -n poc-pipelines
-
-cd ci
-oc apply -f pipeline.yaml -n poc-pipelines
-
-oc create -f pv-discounts.yaml -n poc-pipelines
-oc create -f pv-products.yaml -n poc-pipelines
-oc create -f pipelinerun-discounts.yaml -n poc-pipelines
-oc create -f pipelinerun-products.yaml -n poc-pipelines
+# Pipelines bootstup
 
 
-Change image to public in Quay
-
+* Create namespace pipelines-ci.
+Example:
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pipeline-ci
+  labels:
+     argocd.argoproj.io/managed-by: openshift-gitops
+spec:
+  finalizers:
+  - kubernetes
+```
+* Creat image repositroy in Quay.
+* Cread Robot Accounts in Quay wih write previleges to the new image repository.
+* Creat sicret with Robot Accounts credentials.
+* Add secret to 'pipeline' ServiceAccout
+Example:
+```
+oc secrets link -n pipeline-ci pipeline quay-pull-secret
+```
+or
+```
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: pipeline
+  namespace: pipeline-ci
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true
+secret:
+  - name: quay-pull-secret
+```
